@@ -292,13 +292,18 @@ simply check `AtlaApi.canBend(...)` before letting a move fire.
 
 ## Building
 
-Requires only a JDK (Gradle downloads JDK 17 automatically through the toolchain resolver).
+Any installed Java works to *start* the build (tested with Java 17, 21 and 25). Minecraft 1.20.1's
+build tools only run on Java 17, so `gradle/gradle-daemon-jvm.properties` tells Gradle to download
+its own JDK 17 on the first build and use that. You don't need to install or switch anything.
 
 ```bash
 ./gradlew dist                              # both jars -> build/dist/
 ./gradlew :atla-gates:runClient             # dev client with both mods (+ WorldEdit for authoring)
 ./gradlew :atla-gates:runGameTestServer     # headless in-game test suite
 ```
+
+On Windows PowerShell use `.\gradlew dist`. The first build downloads Gradle, a JDK and Minecraft
+and takes several minutes; later builds take seconds.
 
 The GameTest suite (`atla-gates/src/gametest`) runs on a real 1.20.1 server and checks:
 the Air-only start, gates unlocking elements from flags/tags, gate chaining and level caps; the full
