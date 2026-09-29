@@ -315,7 +315,8 @@ public final class AtlaCommands {
             source.sendSuccess(() -> Component.literal("Reloaded ATLA story configs").withStyle(ChatFormatting.GREEN), true);
             return 1;
         }
-        source.sendFailure(Component.literal("ATLA configs reloaded with " + errors.size() + " problem(s); broken files keep their previous settings:"));
+        source.sendFailure(Component.literal("ATLA configs reloaded with " + errors.size() + " problem(s). Broken entries were "
+                + "skipped; a file that isn't valid JSON keeps its previous settings:"));
         for (String error : errors) {
             source.sendFailure(Component.literal(" - " + error));
         }

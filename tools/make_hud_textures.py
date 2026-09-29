@@ -192,12 +192,13 @@ def main():
     ]
     for i, im in enumerate(icons):
         sheet.alpha_composite(im, (32 + 16 * i, 0))
-    # level pips: empty (dark socket) at (0,24), filled (white, tinted in code) at (4,24)
+    # level pips, styled like the hotbar's corner rivets so they read on dark and light backgrounds:
+    # empty = rivet-coloured ring around a dark socket at (0,24); filled = solid white (tinted per element) at (4,24)
     for x in range(3):
         for y in range(3):
-            edge = x in (0, 2) or y in (0, 2)
-            sheet.putpixel((x, 24 + y), OUTLINE if edge else hexc('3b2e22'))
-            sheet.putpixel((4 + x, 24 + y), OUTLINE if (x, y) in ((0, 0), (2, 0), (0, 2), (2, 2)) else hexc('ffffff'))
+            centre = (x, y) == (1, 1)
+            sheet.putpixel((x, 24 + y), FILL if centre else RIVET)
+            sheet.putpixel((4 + x, 24 + y), hexc('ffffff'))
     sheet.save(os.path.join(OUT, 'element_hud.png'))
 
     # mod-list logo: the four icons on a slot background, 64x64

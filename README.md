@@ -270,6 +270,8 @@ All `/atla` commands tab-complete element ids, gate ids, override ids, zone ids 
 
 ## HUD & controls
 
+![Element HUD next to the KyoshiCraft hotbar](docs/hud-preview.png)
+
 * The active element is drawn in a slot next to the hotbar, styled after the KyoshiCraft resource pack's
   hotbar (dark bark-brown slot, riveted corners, bevelled edge), with level pips beside it. It steps
   around the off-hand slot and the hotbar attack indicator automatically.
