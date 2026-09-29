@@ -1,0 +1,18 @@
+plugins {
+    // Declared once here so both subprojects share one ForgeGradle classloader.
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)' apply false
+}
+
+// `./gradlew dist` builds both mods and collects the release jars in build/dist/
+tasks.register('dist', Copy) {
+    group = 'build'
+    description = 'Builds every mod jar and copies them to build/dist'
+    subprojects.each { sub ->
+        dependsOn sub.tasks.named('build')
+        from(sub.layout.buildDirectory.dir('libs')) {
+            include '*.jar'
+            exclude '*-sources.jar'
+        }
+    }
+    into layout.buildDirectory.dir('dist')
+}

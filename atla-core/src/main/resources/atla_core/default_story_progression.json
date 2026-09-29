@@ -1,0 +1,76 @@
+// ATLA Core - story progression (config/story_progression.json)
+//
+// Comments (// and #) and trailing commas are allowed. Run /atla reload after editing.
+//
+// A player starts with the elements marked "startUnlocked". Every other element stays completely
+// locked (level 0: it cannot be selected and fails every bending check) until a narrative gate
+// below unlocks it. A gate clears once per player as soon as its "requires" pass. The usual way to
+// satisfy one is a quest reward (FTB Quests / Heracles / command blocks) running:
+//     /atla flag add @s book1.northern_water_tribe
+//
+// "requires" can check: flags, anyFlags, notFlags, elements {"water": 2}, activeElement, gates,
+// advancements, tags (/tag), notTags, stages (Game Stages), scores {"objective": {"min": 1}}, any [...]
+// Gate rewards: unlock [...], levels {"air": 2}, addFlags, removeFlags, commands, announce {...}
+{
+  "elements": {
+    "air":   { "startUnlocked": true,  "startLevel": 1, "maxLevel": 5 },
+    "water": { "startUnlocked": false, "startLevel": 1, "maxLevel": 5 },
+    "earth": { "startUnlocked": false, "startLevel": 1, "maxLevel": 5 },
+    "fire":  { "startUnlocked": false, "startLevel": 1, "maxLevel": 5 }
+  },
+
+  // Names for levels 1..N (shown in /atla progress and level-up messages)
+  "levelNames": ["Novice", "Apprentice", "Adept", "Expert", "Master"],
+
+  "settings": {
+    // how often (ticks) gates are re-checked for conditions nothing notifies us about (tags, scores, stages)
+    "evaluateEveryTicks": 20,
+    // switch the HUD to an element the moment it is unlocked
+    "autoSelectUnlockedElement": true,
+    // false = only commands can change the selected element (e.g. during a scripted scene)
+    "allowPlayerElementSwitching": true,
+    "announceUnlocks": true,
+    "announceLevelUps": true,
+    "unlockSound": "minecraft:ui.toast.challenge_complete",
+    "levelUpSound": { "id": "minecraft:entity.player.levelup", "volume": 0.8, "pitch": 1.2 },
+    "switchSound": { "id": "minecraft:entity.phantom.flap", "volume": 0.6, "pitch": 1.6 },
+    // Only used when Game Stages is installed: element levels become stages like "atla_water" and
+    // "atla_water_1".."atla_water_5" so FTB Quests etc. can gate quests on them.
+    "gameStages": { "mirrorElements": true, "mirrorFlags": false, "prefix": "atla_" }
+  },
+
+  // Example story. Rename the flags to match your quests; nothing here fires until a flag is set.
+  "gates": [
+    {
+      "id": "air_temple_memories",
+      "description": "Book 1: Aang returns to the Southern Air Temple",
+      "requires": { "flags": ["book1.southern_air_temple"] },
+      "levels": { "air": 2 }
+    },
+    {
+      "id": "waterbending_awakens",
+      "description": "Book 1: Katara and Aang learn together at the Northern Water Tribe",
+      "requires": { "flags": ["book1.northern_water_tribe"] },
+      "unlock": ["water"]
+    },
+    {
+      "id": "waterbending_pakku",
+      "description": "Book 1: Master Pakku accepts Aang as a student",
+      "requires": { "gates": ["waterbending_awakens"], "flags": ["book1.pakku_training"] },
+      "levels": { "water": 3 }
+    },
+    {
+      "id": "earthbending_awakens",
+      "description": "Book 2: Toph agrees to teach Aang",
+      "requires": { "flags": ["book2.toph_joins"] },
+      "unlock": ["earth"],
+      "announce": { "message": "&aToph: &f\"Rock is a stubborn element. You have to be steady and strong.\"" }
+    },
+    {
+      "id": "firebending_awakens",
+      "description": "Book 3: Zuko teaches Aang; the Sun Warriors' dragons reveal the true meaning of fire",
+      "requires": { "flags": ["book3.sun_warriors"] },
+      "unlock": ["fire"]
+    }
+  ]
+}

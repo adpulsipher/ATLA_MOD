@@ -1,0 +1,59 @@
+// ATLA Gates - story boundaries (config/story_boundaries.json)
+//
+// Keeps players out of parts of the map that aren't finished, and opens them as the story goes on.
+// Corners are inclusive block coordinates. Use [x, z] pairs (no y) to cover the whole height,
+// so gliders can't fly over a boundary.
+//
+//   "barrier" - can't enter unless "requires" passes (no requires = closed for good)
+//   "bounds"  - the playable area. Once any bounds zone in a dimension is open, players must stay
+//               inside an open one. Stack bigger ones gated on later story flags to grow the world.
+//   "trigger" - entering it sets story flags / runs commands / shows a message
+//
+// "requires" uses the same keys as story_progression.json (flags, elements, gates, tags, ...).
+// Creative and spectator players are never restricted. /atla zone check shows what applies to you.
+//
+// Examples below are "enabled": false.
+{
+  "settings": {
+    "exemptGameModes": ["creative", "spectator"],
+    "messageCooldownTicks": 40,
+    "showWalls": true,
+    "wallDistance": 4,
+    "wallParticle": "minecraft:cloud",
+    "pushSound": { "id": "minecraft:entity.phantom.flap", "volume": 0.5, "pitch": 0.7 },
+    "defaultMessage": "&7Mist rolls in. This part of the world isn't ready for you yet."
+  },
+
+  "zones": [
+    {
+      "id": "example_book1_world",
+      "enabled": false,
+      "type": "bounds",
+      "from": [-1500, -900], "to": [800, 600],
+      "message": "&7The Avatar's journey hasn't led this far yet."
+    },
+    {
+      "id": "example_book2_world",
+      "enabled": false,
+      "type": "bounds",
+      "from": [-2500, -2000], "to": [2500, 2000],
+      "requires": { "gates": ["earthbending_awakens"] }
+    },
+    {
+      "id": "example_unfinished_fire_nation",
+      "enabled": false,
+      "type": "barrier",
+      "from": [3000, -1000], "to": [6000, 2000],
+      "message": "&cThe Fire Nation is still being built. Turn back, Avatar.",
+      "fallback": [2900, 70, 0]
+    },
+    {
+      "id": "example_arrive_omashu",
+      "enabled": false,
+      "type": "trigger",
+      "from": [450, 60, -120], "to": [520, 120, -40],
+      "setFlags": ["book1.arrived_omashu"],
+      "enterMessage": "&6Omashu"
+    }
+  ]
+}

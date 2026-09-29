@@ -1,0 +1,18 @@
+{
+  "atla_core.element.air": "Airbending",
+  "atla_core.element.water": "Waterbending",
+  "atla_core.element.earth": "Earthbending",
+  "atla_core.element.fire": "Firebending",
+  "atla_core.announce.unlocked": "has awakened within you",
+  "atla_core.announce.level_up": "%s reached %s",
+  "atla_core.progress.locked": "Locked",
+  "atla_core.command.switching_disabled": "Switching elements is disabled right now.",
+  "atla_core.command.element_locked": "You cannot bend %s yet.",
+  "key.categories.atla_core": "Avatar: Bending",
+  "key.atla_core.next_element": "Next Bending Element",
+  "key.atla_core.previous_element": "Previous Bending Element",
+  "key.atla_core.select_air": "Select Airbending",
+  "key.atla_core.select_water": "Select Waterbending",
+  "key.atla_core.select_earth": "Select Earthbending",
+  "key.atla_core.select_fire": "Select Firebending"
+}

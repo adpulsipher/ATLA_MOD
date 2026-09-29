@@ -1,0 +1,81 @@
+// ATLA Gates - bendable blocks (config/schematic_overrides.json)
+//
+// When a player right-clicks a "trigger" block (in Adventure/Survival), their CURRENT element
+// (the one on their HUD, switched with R) and its level are checked. If they match, the actions
+// run: paste a WorldEdit schematic, fill/replace a box, or set single blocks.
+//
+// Schematics are looked up by name in config/atla_gates/schematics/, config/schematics/ and
+// config/worldedit/schematics/ (where WorldEdit's "//schem save <name>" puts them).
+// Tip: build the "after" state in place, //copy it, //schem save it, then //undo. With no
+// "origin"/"position" the schematic pastes back exactly where it was copied (like //paste -o).
+//
+// /atla pos                      prints the block you're looking at as a copyable [x, y, z]
+// /atla override test <id>       explains why you can/can't bend it
+// /atla override reset <id>      puts the original blocks back (undo snapshot) for re-testing
+// /atla reload                   re-reads this file
+//
+// Examples below are "enabled": false - flip that once their coordinates match your world.
+{
+  "settings": {
+    "gameModes": ["adventure", "survival"],
+    "messageCooldownTicks": 20,
+    "recordUndo": true,
+    "animation": { "order": "outward", "blocksPerTick": 48 }
+  },
+
+  "overrides": [
+    {
+      "id": "example_earth_rock_wall",
+      "enabled": false,
+      "dimension": "minecraft:overworld",
+      "trigger": [[120, 70, -340], [121, 70, -340], [122, 70, -340]],
+      "element": "earth",
+      "minLevel": 1,
+      "action": { "type": "schematic", "file": "example_rock_wall_open" },
+      "animation": { "order": "top_down", "blocksPerTick": 24 },
+      "setFlags": ["opened.rock_wall"],
+      "messages": {
+        "success": "&aThe rock wall sinks into the earth.",
+        "locked": "&7A wall of solid rock. An earthbender could move it..."
+      }
+    },
+    {
+      "id": "example_fire_melt_ice",
+      "enabled": false,
+      "trigger": [64, 62, 812],
+      "element": "fire",
+      "minLevel": 2,
+      "action": {
+        "type": "replace",
+        "from": [60, 60, 808], "to": [68, 66, 816],
+        "replace": ["#minecraft:ice"],
+        "with": "minecraft:water"
+      },
+      "effects": { "particle": "minecraft:flame", "particleChance": 0.5 }
+    },
+    {
+      "id": "example_water_freeze_bridge",
+      "enabled": false,
+      "triggerArea": { "from": [200, 62, 40], "to": [200, 62, 60] },
+      "element": "water",
+      "minLevel": 1,
+      "action": {
+        "type": "replace",
+        "from": [201, 62, 40], "to": [215, 62, 60],
+        "replace": ["minecraft:water"],
+        "with": "minecraft:packed_ice"
+      },
+      "effects": { "particle": "minecraft:snowflake" }
+    },
+    {
+      "id": "example_air_clear_leaves",
+      "enabled": false,
+      "trigger": [10, 80, 10],
+      "element": "air",
+      "action": { "type": "clear", "from": [8, 80, 8], "to": [12, 84, 12], "replace": ["#minecraft:leaves"] },
+      "animation": { "order": "random", "blocksPerTick": 12 },
+      "requires": { "flags": ["book1.southern_air_temple"] },
+      "messages": { "notReady": "&7The wind here feels... not yet." }
+    }
+  ]
+}

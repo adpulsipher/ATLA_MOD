@@ -1,0 +1,31 @@
+name: Build & in-game tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v3
+
+      - name: Build both mods
+        run: ./gradlew --no-daemon dist
+
+      - name: Run GameTests on a headless 1.20.1 server
+        run: ./gradlew --no-daemon :atla-gates:runGameTestServer
+
+      - name: Upload mod jars
+        uses: actions/upload-artifact@v4
+        with:
+          name: atla-story-mods
+          path: build/dist/*.jar

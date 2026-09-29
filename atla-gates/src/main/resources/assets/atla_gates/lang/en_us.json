@@ -1,0 +1,7 @@
+{
+  "atla_gates.override.locked": "Only %s could move this... and you cannot bend it yet.",
+  "atla_gates.override.level_too_low": "Your %s is not strong enough yet (needs %s).",
+  "atla_gates.override.wrong_element": "Switch to %s to bend this.",
+  "atla_gates.override.not_ready": "The time isn't right for this yet.",
+  "atla_gates.zone.blocked": "You can't go this way yet."
+}
